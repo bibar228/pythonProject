@@ -4,9 +4,9 @@ import speech_recognition as sr
 import soundfile as sf
 import pymysql
 import random
+from bot import TOKEN
 
 language='ru_RU'
-TOKEN='5698628232:AAHE0iZ5KDxNq6IkHXFqUHB-1seAtTqmj5M'
 bot = telebot.TeleBot(TOKEN)
 r = sr.Recognizer()
 
