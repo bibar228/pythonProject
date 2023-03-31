@@ -32,26 +32,30 @@ dd = ["@MakeMeFlySoHigh", "@biboniy", "@Sum115", "@niarpe", "@JestkiyPoc"]
 
 @bot.message_handler(commands=['all'])
 def start_message(message):
-    bot.send_message(message.chat.id, f"{' '.join(dd)} {message.text[4:]}")
-
-
+    try:
+        bot.send_message(message.chat.id, f"{' '.join(dd)} {message.text[4:]}")
+    except Exception as ex:
+        print(ex)
 
 @bot.message_handler(content_types=["text"])
 def text(message):
     mama = ["матухи", "мамашу", "маму", "матуху", "мамашку", "мама", "мамку", "mamy", "mamky", "mamku", "мамаша",
             "мother", "mama", "мать", "мамаше", "матухе", "мамашке", "мамке", "маме"]
-    no_mama = ["Мама это святое!", "Не трогай маму, паскуда!", "Not trogat` mother plz"]
-    text = "".join([i.lower() for i in message.text])
+    no_mama = ["Мама это святое!", "Не трогай маму, паскуда!", "Not trogat` mother plz", "Надеюсь ты подумаешь над своим поведеним и больше не будешь упоминать мамулечку в суе, паскуда тварь!", "ЕБАЛО НА НОЛЬ, ПАДЛА, ЗА МАМУ ВИЕБУ", "Еще раз про маму и пиздец тебе, понял?"]
 
-    for i in text.split():
-        if i in mama:
-            if message.from_user.username == "niarpe":
-                bot.send_message(message.chat.id, f"@niarpe {random.choice(no_mama)}")
-            elif message.from_user.username == "Sum115":
-                bot.send_message(message.chat.id, f"@Sum115 {random.choice(no_mama)}")
-            elif message.from_user.username == "MakeMeFlySoHigh":
-                bot.send_message(message.chat.id, f"@MakeMeFlySoHigh {random.choice(no_mama)}")
+    try:
+        text = "".join([i.lower() for i in message.text])
 
+        for i in text.split():
+            if i in mama:
+                if message.from_user.username == "niarpe":
+                    bot.send_message(message.chat.id, f"@niarpe {random.choice(no_mama)}")
+                elif message.from_user.username == "Sum115":
+                    bot.send_message(message.chat.id, f"@Sum115 {random.choice(no_mama)}")
+                elif message.from_user.username == "MakeMeFlySoHigh":
+                    bot.send_message(message.chat.id, f"@MakeMeFlySoHigh {random.choice(no_mama)}")
+    except Exception as ex:
+        print(ex)
 
     with open("chat.txt", "a+", encoding="UTF-8") as file:
         chat_info = bot.get_chat(message.chat.id).title
@@ -93,16 +97,17 @@ def text(message):
 
 @bot.message_handler(content_types=["photo"])
 def photo(message):
-    fileID = message.photo[-1].file_id
-    file_info = bot.get_file(fileID)
-    downloaded_file = bot.download_file(file_info.file_path)
-    filename = str(uuid.uuid4()) + ".jpg"
-    with open(filename, 'wb') as new_file:
-        new_file.write(downloaded_file)
-    print("get photo")
-
-    chat_info = bot.get_chat(message.chat.id).title
     try:
+        fileID = message.photo[-1].file_id
+        file_info = bot.get_file(fileID)
+        downloaded_file = bot.download_file(file_info.file_path)
+        filename = str(uuid.uuid4()) + ".jpg"
+        with open(filename, 'wb') as new_file:
+            new_file.write(downloaded_file)
+        print("get photo")
+
+        chat_info = bot.get_chat(message.chat.id).title
+
         connection = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='warlight123',
                                      database='telega_db',
                                      cursorclass=pymysql.cursors.DictCursor)
@@ -140,15 +145,16 @@ def photo(message):
 
 @bot.message_handler(content_types=["video"])
 def photo(message):
-    file_info = bot.get_file(message.video.file_id)
-    downloaded_file = bot.download_file(file_info.file_path)
-    filename = str(uuid.uuid4()) + ".mp4"
-    with open(filename, 'wb') as new_file:
-        new_file.write(downloaded_file)
-    print("get video")
-
-    chat_info = bot.get_chat(message.chat.id).title
     try:
+        file_info = bot.get_file(message.video.file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+        filename = str(uuid.uuid4()) + ".mp4"
+        with open(filename, 'wb') as new_file:
+            new_file.write(downloaded_file)
+        print("get video")
+
+        chat_info = bot.get_chat(message.chat.id).title
+
         connection = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='warlight123',
                                      database='telega_db',
                                      cursorclass=pymysql.cursors.DictCursor)
@@ -186,15 +192,16 @@ def photo(message):
 
 @bot.message_handler(content_types=['video_note'])
 def photo(message):
-    file_info = bot.get_file(message.video_note.file_id)
-    downloaded_file = bot.download_file(file_info.file_path)
-    filename = str(uuid.uuid4()) + ".mp4"
-    with open(filename, 'wb') as new_file:
-        new_file.write(downloaded_file)
-    print("get circle")
-
-    chat_info = bot.get_chat(message.chat.id).title
     try:
+        file_info = bot.get_file(message.video_note.file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+        filename = str(uuid.uuid4()) + ".mp4"
+        with open(filename, 'wb') as new_file:
+            new_file.write(downloaded_file)
+        print("get circle")
+
+        chat_info = bot.get_chat(message.chat.id).title
+
         connection = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='warlight123',
                                      database='telega_db',
                                      cursorclass=pymysql.cursors.DictCursor)
@@ -231,19 +238,18 @@ def photo(message):
 
 @bot.message_handler(content_types=["voice"])
 def text(message):
-
-    filename = str(uuid.uuid4()) + ".ogg"
-    file_info = bot.get_file(message.voice.file_id)
-    downloaded_file = bot.download_file(file_info.file_path)
-    with open(filename, 'wb') as new_file:
-        new_file.write(downloaded_file)
-
-    data, samplerate = sf.read(filename)
-    sf.write('new_file.wav', data, samplerate)
-    text = recognise('new_file.wav')
-    count = 0
-
     try:
+        filename = str(uuid.uuid4()) + ".ogg"
+        file_info = bot.get_file(message.voice.file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+        with open(filename, 'wb') as new_file:
+            new_file.write(downloaded_file)
+
+        data, samplerate = sf.read(filename)
+        sf.write('new_file.wav', data, samplerate)
+        text = recognise('new_file.wav')
+        count = 0
+
         text = "".join([i.lower() for i in text])
 
         for i, j in names.items():
