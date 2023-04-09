@@ -59,21 +59,52 @@ def text(message):
                 elif message.from_user.username == "MakeMeFlySoHigh":
                     bot.send_message(message.chat.id, f"@MakeMeFlySoHigh {random.choice(no_mama)}")
 
+        mess = message.text.split()
 
-        if message.text[:20] == "@GOLOSOVUHI_PITA_bot":
-            response = openai.Completion.create(
-                model="text-davinci-003",
-                prompt=message.text,
-                temperature=0.9,
-                max_tokens=1000,
-                top_p=1.0,
-                frequency_penalty=0.0,
-                presence_penalty=0.6,
-                stop=["You:"]
-            )
-            bot.send_message(message.chat.id, f"@{message.from_user.username} {response['choices'][0]['text']}")
-
-
+        if mess[0] == "@GOLOSOVUHI_PITA_bot":
+            if mess[1] in ["скажи", "Скажи", "Передай", "передай"]:
+                if mess[2] in ["Вовке", "вовке", "вове", "Вове", "Вофке", "вофке", "Вовке,", "вовке,", "вове,",
+                                   "Вове,", "Вофке,", "вофке,"]:
+                    bot.send_message(message.chat.id,
+                                         f"@Sum115 вам просили передать, что вы {' '.join(message.text.split()[5:])}")
+                elif mess[2] in ["Лосю", "Лосю,", "лосю", "лосю,"]:
+                    bot.send_message(message.chat.id,
+                                         f"@bibak228 вам просили передать, что вы {' '.join(message.text.split()[5:])}")
+                elif mess[2] in ["Илье", "Илье,", "илье", "илье,", "Ексиже", "ексиже", "ексиже,", "Ексиже,"]:
+                    bot.send_message(message.chat.id,
+                                         f"@JestkiyPoc вам просили передать, что вы {' '.join(message.text.split()[5:])}")
+                elif mess[2] in ["Лакаю", "Лакаю,", "лакаю", "лакаю,", "Сосиске", "Сосиске,", "сосиске",
+                                     "сосиске,"]:
+                    bot.send_message(message.chat.id,
+                                         f"@MakeMeFlySoHigh вам просили передать, что вы {' '.join(message.text.split()[5:])}")
+                elif mess[2] in ["Питу", "Питу,", "питу", "питу,", "Артему", "Артему,", "артему", "артему,"]:
+                    bot.send_message(message.chat.id,
+                                         f"@niarpe вам просили передать, что вы {' '.join(message.text.split()[5:])}")
+                else:
+                    response = openai.Completion.create(
+                        model="text-davinci-003",
+                        prompt=message.text,
+                        temperature=0.9,
+                        max_tokens=1000,
+                        top_p=1.0,
+                        frequency_penalty=0.0,
+                        presence_penalty=0.6,
+                        stop=["You:"]
+                    )
+                    bot.send_message(message.chat.id,
+                                         f"@{message.from_user.username} {response['choices'][0]['text']}")
+            else:
+                response = openai.Completion.create(
+                    model="text-davinci-003",
+                    prompt=message.text,
+                    temperature=0.9,
+                    max_tokens=1000,
+                    top_p=1.0,
+                    frequency_penalty=0.0,
+                    presence_penalty=0.6,
+                    stop=["You:"]
+                )
+                bot.send_message(message.chat.id, f"@{message.from_user.username} {response['choices'][0]['text']}")
 
     except Exception as ex:
         print(ex)
