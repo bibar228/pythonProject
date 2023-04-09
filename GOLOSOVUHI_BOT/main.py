@@ -5,11 +5,13 @@ import soundfile as sf
 import pymysql
 import random
 from bot import TOKEN
+import openai
+from openai_key import key
 
 language='ru_RU'
 bot = telebot.TeleBot(TOKEN)
 r = sr.Recognizer()
-
+openai.api_key = key
 
 names = {"Илья": "@JestkiyPoc", "Лось": "@biboniy", "Лакай": "@MakeMeFlySoHigh", "Вовка": "@Sum115", "Артем": "@niarpe"}
 
@@ -26,6 +28,8 @@ def recognise(filename):
 
     except Exception as ex:
         return ex
+
+
 
 
 dd = ["@MakeMeFlySoHigh", "@biboniy", "@Sum115", "@niarpe", "@JestkiyPoc"]
@@ -54,8 +58,27 @@ def text(message):
                     bot.send_message(message.chat.id, f"@Sum115 {random.choice(no_mama)}")
                 elif message.from_user.username == "MakeMeFlySoHigh":
                     bot.send_message(message.chat.id, f"@MakeMeFlySoHigh {random.choice(no_mama)}")
+
+
+        if message.text[:20] == "@GOLOSOVUHI_PITA_bot":
+            response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=message.text,
+                temperature=0.9,
+                max_tokens=1000,
+                top_p=1.0,
+                frequency_penalty=0.0,
+                presence_penalty=0.6,
+                stop=["You:"]
+            )
+            bot.send_message(message.chat.id, f"@{message.from_user.username} {response['choices'][0]['text']}")
+
+
+
     except Exception as ex:
         print(ex)
+
+
 
     with open("chat.txt", "a+", encoding="UTF-8") as file:
         chat_info = bot.get_chat(message.chat.id).title
@@ -258,8 +281,9 @@ def text(message):
                 count += 1
         if count == 0:
             bot.send_message(message.chat.id, text)
-    except Exception:
+    except Exception as e:
         bot.send_message(message.chat.id, "Что-то непереводимое")
+
 
 
 
