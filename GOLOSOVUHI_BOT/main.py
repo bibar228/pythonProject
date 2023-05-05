@@ -6,12 +6,12 @@ import pymysql
 import random
 from bot import TOKEN
 import openai
-from openai_key import key
+#from openai_key import key
 
 language='ru_RU'
 bot = telebot.TeleBot(TOKEN)
 r = sr.Recognizer()
-openai.api_key = key
+openai.api_key = "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"
 
 names = {"Илья": "@JestkiyPoc", "Лось": "@biboniy", "Лакай": "@MakeMeFlySoHigh", "Вовка": "@Sum115", "Артем": "@niarpe"}
 
@@ -33,6 +33,18 @@ def recognise(filename):
 
 
 dd = ["@MakeMeFlySoHigh", "@biboniy", "@Sum115", "@niarpe", "@JestkiyPoc"]
+
+
+
+chat_id = -1001511936404
+
+@bot.message_handler(commands=['start'])
+def send_to_telegram(message):
+    if message.text[7:12] == "вовке":
+        bot.send_message(chat_id,  f"@Sum115 {message.text[12:]}")
+    elif message.text[7:11] == "всем":
+        bot.send_message(chat_id, message.text[11:])
+
 
 @bot.message_handler(commands=['all'])
 def start_message(message):
@@ -93,6 +105,8 @@ def text(message):
                     )
                     bot.send_message(message.chat.id,
                                          f"@{message.from_user.username} {response['choices'][0]['text']}")
+            elif mess[1] in ["напиши", "Напиши"]:
+                pass
             else:
                 response = openai.Completion.create(
                     model="text-davinci-003",
