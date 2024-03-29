@@ -55,10 +55,11 @@ def start_message(message):
 @bot.message_handler(content_types=["text"])
 def text(message):
     try:
-        messages.append(HumanMessage(content=message.text))
-        res = chat(messages)
-        messages.append(res)
-        bot.send_message(message.chat.id, f"@{message.from_user.username} {res.content}")
+        if message.text.split()[0] == "@GOLOSOVUHI_PITA_bot":
+            messages.append(HumanMessage(content=message.text))
+            res = chat(messages)
+            messages.append(res)
+            bot.send_message(message.chat.id, f"@{message.from_user.username} {res.content}")
 
     except Exception as ex:
         print(ex)
